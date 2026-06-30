@@ -40,6 +40,11 @@ export async function callDeleteTest(id) {
   return result.data;
 }
 
+export async function callDeleteTests(ids) {
+  const result = await callFunction('deleteTests')({ ids });
+  return result.data;
+}
+
 export async function callCreatePublisher(payload) {
   const result = await callFunction('createPublisher')(payload);
   return result.data;

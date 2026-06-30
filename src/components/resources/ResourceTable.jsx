@@ -3,13 +3,39 @@ import { Eye, FileText, Pencil, Trash2 } from 'lucide-react';
 import Button from '../common/Button';
 import { formatDate } from '../../utils/formatDate';
 
-export default function ResourceTable({ resources = [], onDelete, readOnly = false }) {
+export default function ResourceTable({
+  resources = [],
+  onDelete,
+  readOnly = false,
+  selectable = false,
+  selectedIds = [],
+  onToggleSelect,
+  onToggleSelectAll,
+}) {
+  const selectedSet = new Set(selectedIds);
+  const allSelected = resources.length > 0 && resources.every((resource) => selectedSet.has(resource.id));
+  const someSelected = resources.some((resource) => selectedSet.has(resource.id));
+
   return (
     <div className="surface-card overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="animated-table w-full min-w-[960px] text-left">
+        <table className="animated-table w-full min-w-[1040px] text-left">
           <thead className="table-header">
             <tr>
+              {selectable ? (
+                <th className="w-12 px-5 py-4">
+                  <input
+                    type="checkbox"
+                    checked={allSelected}
+                    ref={(element) => {
+                      if (element) element.indeterminate = !allSelected && someSelected;
+                    }}
+                    onChange={() => onToggleSelectAll?.()}
+                    aria-label="Tüm testleri seç"
+                    className="h-4 w-4 rounded border-surface-border text-primary focus:ring-primary"
+                  />
+                </th>
+              ) : null}
               <th className="px-5 py-4">Kapak</th>
               <th className="px-5 py-4">Başlık</th>
               <th className="px-5 py-4">Yayıncı</th>
@@ -21,8 +47,21 @@ export default function ResourceTable({ resources = [], onDelete, readOnly = fal
             </tr>
           </thead>
           <tbody className="divide-y divide-surface-border dark:divide-dark-border">
-            {resources.map((resource) => (
+            {resources.map((resource) => {
+              const checked = selectedSet.has(resource.id);
+              return (
               <tr key={resource.id} className="hover:bg-surface-low/70 dark:hover:bg-dark-surface">
+                {selectable ? (
+                  <td className="px-5 py-4">
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={() => onToggleSelect?.(resource.id)}
+                      aria-label={`${resource.title} testini seç`}
+                      className="h-4 w-4 rounded border-surface-border text-primary focus:ring-primary"
+                    />
+                  </td>
+                ) : null}
                 <td className="px-5 py-4">
                   <div className="grid h-16 w-12 place-items-center overflow-hidden rounded-lg bg-primary-soft text-primary dark:bg-primary/15 dark:text-primary-muted">
                     {resource.coverImageURL ? (
@@ -59,7 +98,8 @@ export default function ResourceTable({ resources = [], onDelete, readOnly = fal
                   </div>
                 </td>
               </tr>
-            ))}
+              );
+            })}
           </tbody>
         </table>
       </div>

@@ -28,7 +28,6 @@ export default function ResourceForm({ initialData, saving = false, onSubmit, on
   const [newPublisher, setNewPublisher] = useState('');
   const [creatingPublisher, setCreatingPublisher] = useState(false);
   const [errors, setErrors] = useState({});
-  const isEdit = Boolean(initialData?.id);
 
   useEffect(() => {
     async function loadCollections() {
@@ -44,7 +43,7 @@ export default function ResourceForm({ initialData, saving = false, onSubmit, on
     }
 
     loadCollections();
-  }, [isEdit]);
+  }, []);
 
   function updateField(field, value) {
     setForm((current) => ({ ...current, [field]: value }));
@@ -119,26 +118,23 @@ export default function ResourceForm({ initialData, saving = false, onSubmit, on
             value={form.sourceCollection}
             onChange={(value) => updateField('sourceCollection', value)}
             error={errors.sourceCollection}
-            disabled={isEdit}
             placeholder="Yayıncı seçin"
             searchPlaceholder="Yayıncı ara..."
             emptyLabel="Eşleşen yayıncı yok"
             className="relative z-[140]"
             panelClassName="z-[160]"
           />
-          {!isEdit ? (
-            <div className="grid gap-2 self-end rounded-xl bg-surface-low/70 p-3 dark:bg-dark-surface sm:grid-cols-[1fr_auto]">
-              <Input
-                value={newPublisher}
-                onChange={(event) => setNewPublisher(event.target.value)}
-                placeholder="Yeni yayıncı adı"
-                aria-label="Yeni yayıncı adı"
-              />
-              <Button icon={Plus} loading={creatingPublisher} onClick={handleCreatePublisher} className="sm:self-start">
-                Yayıncı Ekle
-              </Button>
-            </div>
-          ) : null}
+          <div className="grid gap-2 self-end rounded-xl bg-surface-low/70 p-3 dark:bg-dark-surface sm:grid-cols-[1fr_auto]">
+            <Input
+              value={newPublisher}
+              onChange={(event) => setNewPublisher(event.target.value)}
+              placeholder="Yeni yayıncı adı"
+              aria-label="Yeni yayıncı adı"
+            />
+            <Button icon={Plus} loading={creatingPublisher} onClick={handleCreatePublisher} className="sm:self-start">
+              Yayıncı Ekle
+            </Button>
+          </div>
         </div>
       </section>
 

@@ -1,6 +1,6 @@
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
-import { callCreatePublisher, callCreateTest, callDeleteTest, callUpdateTest } from './adminFunctionService';
+import { callCreatePublisher, callCreateTest, callDeleteTest, callDeleteTests, callUpdateTest } from './adminFunctionService';
 
 const RESOURCE_META_COLLECTIONS = ['ozelKategoriler', 'kategoriAdlari'];
 const COLLECTION_NAME_FIELD = 'name';
@@ -264,6 +264,12 @@ export async function updateResource(id, payload) {
 export async function deleteResource(idOrResource) {
   const id = typeof idOrResource === 'string' ? idOrResource : idOrResource?.id;
   const result = await callDeleteTest(id);
+  clearResourceCache();
+  return result;
+}
+
+export async function deleteResources(ids = []) {
+  const result = await callDeleteTests(ids);
   clearResourceCache();
   return result;
 }

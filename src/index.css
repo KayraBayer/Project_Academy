@@ -47,6 +47,9 @@
   .theme-transitioning *::before,
   .theme-transitioning *::after {
     transition: none !important;
+  }
+
+  .theme-transitioning :where(.auth-token, .auth-pattern, canvas) {
     animation-play-state: paused !important;
   }
 }
@@ -110,11 +113,11 @@
 @keyframes auth-token-float {
   0%,
   100% {
-    opacity: 0.55;
+    opacity: 0.78;
     transform: translate3d(var(--pull-x, 0px), var(--pull-y, 0px), 0) rotate(var(--rotate, 0deg));
   }
   50% {
-    opacity: 0.95;
+    opacity: 1;
     transform: translate3d(
       calc(var(--pull-x, 0px) + var(--x, 16px)),
       calc(var(--pull-y, 0px) + var(--y, -20px)),
@@ -156,7 +159,7 @@
   }
 
   .auth-token {
-    @apply absolute select-none rounded-xl border border-primary/15 bg-white/75 px-4 py-2 text-sm font-black text-primary shadow-card backdrop-blur-sm will-change-transform dark:border-primary-muted/20 dark:bg-dark-card/75 dark:text-primary-muted;
+    @apply absolute select-none rounded-xl border border-primary/25 bg-white px-4 py-2 text-sm font-black text-primary shadow-soft will-change-transform dark:border-primary-muted/25 dark:bg-dark-card dark:text-primary-muted;
     animation: auth-token-float 8s ease-in-out infinite;
   }
 

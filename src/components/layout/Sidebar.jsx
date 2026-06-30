@@ -1,6 +1,7 @@
 import { Link, NavLink } from 'react-router-dom';
 import {
   BarChart3,
+  Bell,
   BookOpen,
   CalendarDays,
   ClipboardCheck,
@@ -28,6 +29,7 @@ const mainLinks = [
 
 const bottomLinks = [
   { to: '/admin/assignments', label: 'Ödev Atama', icon: ClipboardCheck },
+  { to: '/admin/notifications', label: 'Bildirimler', icon: Bell },
   { to: '/admin/students', label: 'Öğrenci İstatistikleri', icon: BarChart3 },
   { to: '/admin/accounts', label: 'Hesap Yönetimi', icon: UsersRound },
   { to: '/admin/announcements', label: 'Duyurular', icon: Megaphone },

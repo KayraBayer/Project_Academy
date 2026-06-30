@@ -29,7 +29,7 @@ const backgroundTokens = [
 ];
 
 const loginInputClass =
-  '!border-white/65 !bg-white/20 text-ink shadow-[0_16px_40px_-26px_rgba(47,128,237,0.5)] ring-1 ring-primary/10 backdrop-blur-xl placeholder:text-outline/75 focus:!border-primary/45 focus:!bg-white/35 focus:ring-primary/20 dark:!border-blue-100 dark:!bg-white dark:text-ink dark:placeholder:text-outline dark:focus:!bg-white';
+  '!border-white !bg-white text-ink shadow-[0_18px_42px_-24px_rgba(47,128,237,0.55)] ring-1 ring-primary/12 placeholder:text-outline/80 focus:!border-primary/50 focus:!bg-white focus:ring-primary/20 dark:!border-blue-100 dark:!bg-white dark:text-ink dark:placeholder:text-outline dark:focus:!bg-white';
 
 export default function Login() {
   const { login, currentUser, role, loading } = useAuth();

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Building2, ChevronRight, Layers3, Plus, Search } from 'lucide-react';
+import { ArrowLeft, Building2, ChevronRight, Layers3, Plus, Search, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Button from '../../components/common/Button';
 import ConfirmDialog from '../../components/common/ConfirmDialog';
@@ -8,7 +8,7 @@ import EmptyState from '../../components/common/EmptyState';
 import Input from '../../components/common/Input';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import ResourceTable from '../../components/resources/ResourceTable';
-import { deleteResource, getResources } from '../../services/resourceService';
+import { deleteResource, deleteResources, getResources } from '../../services/resourceService';
 import { categories, categoryMap, categoryTone } from '../../utils/categories';
 
 function sortDateValue(value) {
@@ -28,6 +28,8 @@ export default function AdminResources({ forcedCategory = '', selectedPublisher 
   const [gradeLevel, setGradeLevel] = useState('');
   const [sortBy, setSortBy] = useState('newest');
   const [deleteTarget, setDeleteTarget] = useState(null);
+  const [bulkDeleteOpen, setBulkDeleteOpen] = useState(false);
+  const [selectedIds, setSelectedIds] = useState([]);
   const [deleting, setDeleting] = useState(false);
 
   async function loadResources() {
@@ -44,6 +46,7 @@ export default function AdminResources({ forcedCategory = '', selectedPublisher 
     setSubject('');
     setGradeLevel('');
     setSortBy('newest');
+    setSelectedIds([]);
   }, [forcedCategory, selectedPublisher]);
 
   useEffect(() => {
@@ -156,6 +159,38 @@ export default function AdminResources({ forcedCategory = '', selectedPublisher 
     }
   }
 
+  function toggleSelected(id) {
+    setSelectedIds((current) => (current.includes(id) ? current.filter((item) => item !== id) : [...current, id]));
+  }
+
+  function toggleAllVisible() {
+    const visibleIds = tableResources.map((resource) => resource.id);
+    const allVisibleSelected = visibleIds.length > 0 && visibleIds.every((id) => selectedIds.includes(id));
+    setSelectedIds((current) => {
+      if (allVisibleSelected) return current.filter((id) => !visibleIds.includes(id));
+      return [...new Set([...current, ...visibleIds])];
+    });
+  }
+
+  async function confirmBulkDelete() {
+    const visibleIdSet = new Set(tableResources.map((resource) => resource.id));
+    const ids = selectedIds.filter((id) => visibleIdSet.has(id));
+    if (!ids.length) return;
+
+    setDeleting(true);
+    try {
+      const result = await deleteResources(ids);
+      toast.success(`${result.deletedCount || ids.length} test silindi.`);
+      setSelectedIds([]);
+      setBulkDeleteOpen(false);
+      await loadResources();
+    } catch (error) {
+      toast.error(error.message || 'Seçili testler silinemedi.');
+    } finally {
+      setDeleting(false);
+    }
+  }
+
   const category = forcedCategory ? categoryMap[forcedCategory] : null;
   const isCategoryStep = Boolean(forcedCategory && !selectedPublisher);
   const isPublisherStep = Boolean(forcedCategory && selectedPublisher);
@@ -169,6 +204,7 @@ export default function AdminResources({ forcedCategory = '', selectedPublisher 
     : isCategoryStep
       ? 'Yayıncı ara...'
       : 'Kategori ara...';
+  const visibleSelectedCount = selectedIds.filter((id) => tableResources.some((resource) => resource.id === id)).length;
 
   return (
     <div className="space-y-6">
@@ -300,10 +336,29 @@ export default function AdminResources({ forcedCategory = '', selectedPublisher 
             <span className="rounded-full bg-primary-soft px-3 py-1 text-primary dark:bg-primary/15 dark:text-primary-muted">
               {tableResources.length} test
             </span>
+            {visibleSelectedCount ? (
+              <span className="rounded-full bg-danger-soft px-3 py-1 text-danger dark:bg-danger/15 dark:text-red-200">
+                {visibleSelectedCount} seçili
+              </span>
+            ) : null}
             {gradeLevel ? <span className="rounded-full bg-surface-low px-3 py-1 dark:bg-dark-surface">{gradeLevel}</span> : null}
             {subject ? <span className="rounded-full bg-surface-low px-3 py-1 dark:bg-dark-surface">{subject}</span> : null}
+            <div className="ml-auto flex flex-wrap gap-2">
+              {visibleSelectedCount ? (
+                <Button variant="danger" size="sm" icon={Trash2} onClick={() => setBulkDeleteOpen(true)}>
+                  Seçilenleri Sil
+                </Button>
+              ) : null}
+            </div>
           </div>
-          <ResourceTable resources={tableResources} onDelete={setDeleteTarget} />
+          <ResourceTable
+            resources={tableResources}
+            onDelete={setDeleteTarget}
+            selectable
+            selectedIds={selectedIds}
+            onToggleSelect={toggleSelected}
+            onToggleSelectAll={toggleAllVisible}
+          />
         </>
       )}
 
@@ -315,6 +370,15 @@ export default function AdminResources({ forcedCategory = '', selectedPublisher 
         loading={deleting}
         onConfirm={confirmDelete}
         onClose={() => setDeleteTarget(null)}
+      />
+      <ConfirmDialog
+        open={bulkDeleteOpen}
+        title="Seçili testleri sil"
+        description={`${visibleSelectedCount} test kalıcı olarak silinecek.`}
+        confirmLabel="Seçilenleri Sil"
+        loading={deleting}
+        onConfirm={confirmBulkDelete}
+        onClose={() => setBulkDeleteOpen(false)}
       />
     </div>
   );

@@ -19,6 +19,7 @@ import AdminAnnouncements from './pages/admin/AdminAnnouncements';
 import AdminAssignments from './pages/admin/AdminAssignments';
 import AdminCategoryResources from './pages/admin/AdminCategoryResources';
 import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminNotifications from './pages/admin/AdminNotifications';
 import AdminResourceDetail from './pages/admin/AdminResourceDetail';
 import AdminResources from './pages/admin/AdminResources';
 import AdminStudentDetail from './pages/admin/AdminStudentDetail';
@@ -60,6 +61,7 @@ export default function App() {
             <Route path="students" element={<AdminStudents />} />
             <Route path="students/:id" element={<AdminStudentDetail />} />
             <Route path="assignments" element={<AdminAssignments />} />
+            <Route path="notifications" element={<AdminNotifications />} />
             <Route path="accounts" element={<AdminAccounts />} />
             <Route path="announcements" element={<AdminAnnouncements />} />
           </Route>

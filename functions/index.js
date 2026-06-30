@@ -452,25 +452,56 @@ export const updateTest = onCall(callableOptions, async (request) => {
   requireAdmin(request);
   const data = request.data || {};
   const { collectionName, docId } = parseResourceId(data.id);
+  const targetCollectionName = cleanString(data.sourceCollection || data.publisher || collectionName);
   const grade = Number(data.grade);
   const questionCount = Number(data.questionCount);
+  const name = cleanString(data.title || data.name);
+  const link = cleanString(data.link || data.externalLink);
+  const answerKey = cleanString(data.answerKey).toLocaleUpperCase('tr-TR');
 
-  if (!allowedTestGrades.includes(grade) || !questionCount) {
-    throw new HttpsError('invalid-argument', 'Sınıf 5-8 arasında olmalı ve soru sayısı girilmelidir.');
+  validateCollectionName(targetCollectionName);
+
+  if (!name || !link || !allowedTestGrades.includes(grade) || !questionCount || !answerKey) {
+    throw new HttpsError('invalid-argument', 'Yayıncı, test adı, link, 5-8 arası sınıf, soru sayısı ve cevap anahtarı zorunludur.');
   }
 
   const ref = resourcePath(collectionName, docId);
+  const snapshot = await ref.get();
+  if (!snapshot.exists) throw new HttpsError('not-found', 'Test bulunamadı.');
 
-  await ref.update({
-    name: cleanString(data.title || data.name),
-    link: cleanString(data.link || data.externalLink),
+  const testId = `${targetCollectionName}::${docId}`;
+  const updatePayload = {
+    ...snapshot.data(),
+    id: docId,
+    testId,
+    uniqueId: testId,
+    sourceCollection: targetCollectionName,
+    name,
+    link,
     grade,
     questionCount,
-    answerKey: cleanString(data.answerKey).toLocaleUpperCase('tr-TR'),
+    answerKey,
     updatedAt: FieldValue.serverTimestamp(),
-  });
+  };
 
-  return { id: docId, testId: `${collectionName}::${docId}` };
+  const batch = db.batch();
+  if (targetCollectionName === collectionName) {
+    batch.set(ref, updatePayload, { merge: true });
+  } else {
+    const targetRef = resourcePath(targetCollectionName, docId);
+    batch.set(targetRef, updatePayload, { merge: true });
+    batch.delete(ref);
+    batch.set(db.collection('ozelKategoriler').doc(targetCollectionName), { name: targetCollectionName }, { merge: true });
+  }
+
+  await batch.commit();
+
+  return {
+    id: docId,
+    resourceId: `${encodeURIComponent(targetCollectionName)}__${encodeURIComponent(docId)}`,
+    sourceCollection: targetCollectionName,
+    testId,
+  };
 });
 
 export const deleteTest = onCall(callableOptions, async (request) => {
@@ -478,6 +509,25 @@ export const deleteTest = onCall(callableOptions, async (request) => {
   const { collectionName, docId } = parseResourceId(request.data?.id);
   await resourcePath(collectionName, docId).delete();
   return { id: docId, deleted: true };
+});
+
+export const deleteTests = onCall(callableOptions, async (request) => {
+  requireAdmin(request);
+  const ids = Array.isArray(request.data?.ids) ? request.data.ids.map(cleanString).filter(Boolean) : [];
+  if (!ids.length) throw new HttpsError('invalid-argument', 'Silinecek test seçilmelidir.');
+  if (ids.length > 300) throw new HttpsError('invalid-argument', 'Tek seferde en fazla 300 test silinebilir.');
+
+  const batch = db.batch();
+  const deleted = [];
+  ids.forEach((id) => {
+    const { collectionName, docId } = parseResourceId(id);
+    if (!collectionName || !docId) return;
+    batch.delete(resourcePath(collectionName, docId));
+    deleted.push(id);
+  });
+
+  await batch.commit();
+  return { deletedCount: deleted.length, deleted };
 });
 
 export const assignHomework = onCall(callableOptions, async (request) => {
@@ -546,14 +596,22 @@ export const submitTestAnswers = onCall(callableOptions, async (request) => {
   const resourceSnapshot = await resourcePath(collectionName, docId).get();
   if (!resourceSnapshot.exists) throw new HttpsError('not-found', 'Test bulunamadı.');
 
-  const nameSnapshot = await db.collection('ogrenciAdlari').doc(uid).get();
+  const [nameSnapshot, userSnapshot] = await Promise.all([
+    db.collection('ogrenciAdlari').doc(uid).get(),
+    db.collection('users').doc(uid).get(),
+  ]);
   let fullname = nameSnapshot.exists ? cleanString(nameSnapshot.data()?.fullname) : '';
+  const user = userSnapshot.exists ? userSnapshot.data() : {};
   if (!fullname) {
-    const userSnapshot = await db.collection('users').doc(uid).get();
-    const user = userSnapshot.exists ? userSnapshot.data() : {};
     fullname = slugName(user.name || request.auth.token?.name || request.auth.token?.email?.split('@')[0] || '');
   }
   if (!fullname) throw new HttpsError('failed-precondition', 'Öğrenci ilerleme koleksiyonu bulunamadı.');
+  const studentName =
+    cleanString(user.name) ||
+    cleanString(request.auth.token?.name) ||
+    fullname.replace(/_/g, ' ') ||
+    cleanString(request.auth.token?.email) ||
+    uid;
 
   const resource = resourceSnapshot.data() || {};
   const questionCount = Number(resource.questionCount || normalizeAnswerKey(resource.answerKey).length || 0);
@@ -571,7 +629,8 @@ export const submitTestAnswers = onCall(callableOptions, async (request) => {
   const scoring = makeScoring(answersArray, resource.answerKey);
   const now = FieldValue.serverTimestamp();
   const progressRef = db.collection(fullname).doc();
-  const assignmentRef = db.collection(`${fullname}_odevler`).doc(makeAssignmentId(collectionName, docId));
+  const assignmentId = makeAssignmentId(collectionName, docId);
+  const assignmentRef = db.collection(`${fullname}_odevler`).doc(assignmentId);
   const payload = {
     type: 'submission',
     studentId: uid,
@@ -603,6 +662,8 @@ export const submitTestAnswers = onCall(callableOptions, async (request) => {
 
   const assignmentSnapshot = await assignmentRef.get();
   if (assignmentSnapshot.exists) {
+    const assignment = assignmentSnapshot.data() || {};
+    const alreadyCompleted = assignment.status === 'completed' || assignment.completedAt;
     await assignmentRef.set(
       {
         status: 'completed',
@@ -611,6 +672,30 @@ export const submitTestAnswers = onCall(callableOptions, async (request) => {
       },
       { merge: true },
     );
+    if (!alreadyCompleted) {
+      const notificationId = `homework_completed_${uid}_${assignmentId}`;
+      await db.collection('adminNotifications').doc(notificationId).set(
+        {
+          type: 'homework_completed',
+          title: 'Ödev tamamlandı',
+          message: `${studentName} "${resource.name || docId}" ödevini tamamladı.`,
+          studentId: uid,
+          studentName,
+          resourceId: request.data.resourceId,
+          sourceCollection: collectionName,
+          sourceDocId: docId,
+          resourceTitle: resource.name || docId,
+          assignmentCollection: `${fullname}_odevler`,
+          assignmentId,
+          progressCollection: fullname,
+          progressId: progressRef.id,
+          score: scoreFromScoring(scoring, questionCount),
+          read: false,
+          createdAt: FieldValue.serverTimestamp(),
+        },
+        { merge: true },
+      );
+    }
   }
 
   const completedAt = new Date().toISOString();
