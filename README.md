@@ -39,17 +39,18 @@ VITE_FIREBASE_MEASUREMENT_ID=...
 npm run build
 ```
 
-Firebase Hosting deploy için:
+GitHub Pages deploy için `main` branch'e push almak yeterlidir. Local önizleme için:
 
 ```bash
-firebase deploy --only hosting
+npm run build
+npm run preview
 ```
 
 ## Production Yayın
 
 Canlı domain: `erdincbayer.net`
 
-Repo, `main` branch'e push geldiğinde GitHub Actions üzerinden Firebase Hosting production deploy çalıştıracak şekilde ayarlanmıştır.
+Repo, `main` branch'e push geldiğinde GitHub Actions üzerinden GitHub Pages deploy çalıştıracak şekilde ayarlanmıştır.
 
 GitHub > Settings > Environments > `production` içinde şu değerleri ekleyin:
 
@@ -67,21 +68,17 @@ VITE_FIREBASE_FUNCTIONS_REGION
 VITE_ADMIN_EMAILS
 ```
 
-Environment secrets:
+GitHub Pages için ek service account secret gerekmez.
 
-```text
-FIREBASE_SERVICE_ACCOUNT
-```
+Domain bağlama GitHub üzerinden yapılır:
 
-`FIREBASE_SERVICE_ACCOUNT`, Firebase Console > Project settings > Service accounts > Firebase Admin SDK > Generate new private key ile indirilen JSON içeriğinin tamamıdır.
-
-Domain bağlama Firebase Console üzerinden yapılır:
-
-1. Firebase Console > Hosting > Add custom domain.
-2. `erdincbayer.net` alan adını ekleyin.
-3. Firebase'in verdiği TXT doğrulama kaydını domain DNS paneline girin.
-4. Doğrulama tamamlanınca Firebase'in verdiği A/AAAA veya CNAME kayıtlarını DNS paneline ekleyin.
-5. SSL sertifikası Firebase tarafından otomatik hazırlanır.
+1. GitHub repo > Settings > Pages.
+2. Source olarak GitHub Actions seçili olmalıdır.
+3. Custom domain alanına `erdincbayer.net` girilir.
+4. DNS panelinde apex domain için GitHub Pages A kayıtları eklenir:
+   `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`.
+5. `www` kullanılacaksa CNAME kaydı `KayraBayer.github.io` hedefine yönlendirilir.
+6. DNS yayıldıktan sonra Enforce HTTPS aktif edilir.
 
 Firebase Analytics aktif edildiğinde uygulama `page_view`, `login_success`, `resource_view`, `test_solve_open` ve `test_submission_saved` eventlerini GA4'e gönderir. Admin dashboard ise hızlı ve anlık metrikler için Firestore'daki operasyonel verileri kullanmaya devam eder.
 
