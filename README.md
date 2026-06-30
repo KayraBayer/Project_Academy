@@ -44,6 +44,43 @@ Firebase Hosting deploy için:
 firebase deploy --only hosting
 ```
 
+## Production Yayın
+
+Canlı domain: `erdincbayer.net`
+
+Repo, `main` branch'e push geldiğinde GitHub Actions üzerinden Firebase Hosting production deploy çalıştıracak şekilde ayarlanmıştır.
+
+GitHub > Settings > Environments > `production` içinde şu değerleri ekleyin:
+
+Environment variables:
+
+```text
+VITE_FIREBASE_API_KEY
+VITE_FIREBASE_AUTH_DOMAIN
+VITE_FIREBASE_PROJECT_ID
+VITE_FIREBASE_STORAGE_BUCKET
+VITE_FIREBASE_MESSAGING_SENDER_ID
+VITE_FIREBASE_APP_ID
+VITE_FIREBASE_FUNCTIONS_REGION
+VITE_ADMIN_EMAILS
+```
+
+Environment secrets:
+
+```text
+FIREBASE_SERVICE_ACCOUNT
+```
+
+`FIREBASE_SERVICE_ACCOUNT`, Firebase Console > Project settings > Service accounts > Firebase Admin SDK > Generate new private key ile indirilen JSON içeriğinin tamamıdır.
+
+Domain bağlama Firebase Console üzerinden yapılır:
+
+1. Firebase Console > Hosting > Add custom domain.
+2. `erdincbayer.net` alan adını ekleyin.
+3. Firebase'in verdiği TXT doğrulama kaydını domain DNS paneline girin.
+4. Doğrulama tamamlanınca Firebase'in verdiği A/AAAA veya CNAME kayıtlarını DNS paneline ekleyin.
+5. SSL sertifikası Firebase tarafından otomatik hazırlanır.
+
 ## Firestore Koleksiyonları
 
 Canlı projedeki mevcut veri yapısı için ayrıca [docs/firestore-live-schema.md](docs/firestore-live-schema.md) dosyasına bakın. Mevcut canlı DB, kaynakları yayın/kitap adıyla açılmış root collection'larda tutuyor.
