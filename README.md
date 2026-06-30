@@ -64,11 +64,7 @@ Branch: gh-pages
 Folder: /root
 ```
 
-Alternatif olarak repo, `main` branch'e push geldiğinde GitHub Actions üzerinden GitHub Pages deploy çalıştıracak workflow da içerir. Bu yöntemi kullanmak için Source olarak GitHub Actions seçilmelidir.
-
-GitHub > Settings > Environments > `production` içinde şu değerleri ekleyin:
-
-Environment variables:
+Deploy komutu local `.env.local` değerleriyle build alır. Bu dosyada şu değerler bulunmalıdır:
 
 ```text
 VITE_FIREBASE_API_KEY
