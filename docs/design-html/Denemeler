@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#004883",
+                        "inverse-surface": "#2e3132",
+                        "on-secondary-fixed": "#001c39",
+                        "surface-tint": "#674bb5",
+                        "on-primary-fixed": "#21005e",
+                        "surface": "#f8f9fa",
+                        "surface-container-highest": "#e1e3e4",
+                        "tertiary": "#006c4b",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "tertiary-fixed": "#68fcbf",
+                        "primary-fixed-dim": "#cebdff",
+                        "surface-dim": "#d9dadb",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#e1e3e4",
+                        "secondary-fixed-dim": "#a4c9ff",
+                        "secondary": "#0060ac",
+                        "on-surface-variant": "#494552",
+                        "on-tertiary-fixed-variant": "#005137",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#3c1989",
+                        "secondary-container": "#64a8fe",
+                        "outline-variant": "#cac4d4",
+                        "outline": "#7a7583",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#edeeef",
+                        "secondary-fixed": "#d4e3ff",
+                        "on-primary-fixed-variant": "#4f319c",
+                        "tertiary-container": "#00b37e",
+                        "tertiary-fixed-dim": "#45dfa4",
+                        "on-background": "#191c1d",
+                        "primary": "#674bb5",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#f8f9fa",
+                        "surface-container-low": "#f3f4f5",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#e8ddff",
+                        "on-surface": "#191c1d",
+                        "inverse-primary": "#cebdff",
+                        "on-tertiary-container": "#003d28",
+                        "on-tertiary-fixed": "#002114",
+                        "on-secondary-container": "#003c70",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#a78bfa",
+                        "surface-container-high": "#e7e8e9",
+                        "background": "#f8f9fa"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "sm": "12px",
+                        "base": "8px",
+                        "md": "24px",
+                        "xl": "80px",
+                        "lg": "48px",
+                        "xs": "4px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "caption": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-header {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cac4d4;
+            border-radius: 10px;
+        }
+        .bento-card {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+        }
+        .bento-card:hover {
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar Implementation -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-md h-16 backdrop-blur-xl bg-surface/80 dark:bg-inverse-surface/80 border-b border-outline-variant/30 shadow-sm">
+<div class="flex items-center gap-lg">
+<span class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed-dim">EduTr</span>
+<nav class="hidden lg:flex items-center gap-sm">
+<a class="font-label-md text-label-md px-4 py-2 text-primary dark:text-primary-fixed-dim border-b-2 border-primary transition-all" href="#">Panel</a>
+<a class="font-label-md text-label-md px-4 py-2 text-on-surface-variant dark:text-outline hover:bg-surface-container dark:hover:bg-surface-variant/10 hover:text-primary transition-all" href="#">Kategoriler</a>
+<a class="font-label-md text-label-md px-4 py-2 text-on-surface-variant dark:text-outline hover:bg-surface-container dark:hover:bg-surface-variant/10 hover:text-primary transition-all" href="#">İstatistikler</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full text-label-md focus:outline-none focus:ring-2 focus:ring-primary/20 w-64" placeholder="Kaynak ara..." type="text"/>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-2 rounded-full hover:bg-surface-container transition-all active:scale-95">
+<span class="material-symbols-outlined text-on-surface-variant">dark_mode</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container transition-all active:scale-95 relative">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant cursor-pointer active:scale-95 transition-transform">
+<img class="w-full h-full object-cover" data-alt="A professional studio headshot of a friendly educator with soft, warm lighting. The background is a clean, minimalist office with soft lavender accents that match the EduTr brand. The subject wears a smart-casual outfit in neutral tones, exuding a sense of approachability and expertise in a high-end educational platform context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2L7Opk_myP-2LnCiogucBIzAAbvyBput9rf1JU6cS7t4uVaUkuz2L4LfYl8iG_vwrwxdvscBnQz8p3eAsv13OR7XvRQZ8lSOhrpdZIxrQBzx9GMhAssBO-EJoo1hnfX_IdwFE0RnQbJ2jieP3xwG2pDHzO5O_h0nbK68ioKZSsKQcz2hCorl08MJFpAnPP77XUXX7tYK2ZJb9Olm4Lr3uL8soL68z24xSjzZ15VUqvX_hm9L_sidaySwVvuw8REBz_kqF47AkFD8"/>
+</div>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Hidden on Mobile) -->
+<aside class="hidden md:flex flex-col fixed left-0 top-16 h-[calc(100vh-64px)] w-64 py-md px-sm bg-surface-container-low dark:bg-inverse-surface border-r border-outline-variant/20 shadow-md z-40 overflow-y-auto custom-scrollbar">
+<div class="mb-lg px-2">
+<p class="font-label-md text-label-md text-outline mb-1 uppercase tracking-wider">Navigasyon</p>
+</div>
+<nav class="flex flex-col gap-1 flex-1">
+<a class="flex items-center gap-3 p-3 text-on-surface-variant dark:text-outline hover:bg-surface-container-high dark:hover:bg-surface-variant/20 rounded-xl transition-all translate-x-1" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Panel</span>
+</a>
+<a class="flex items-center gap-3 p-3 bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-xl shadow-sm" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">category</span>
+<span class="font-label-md text-label-md">Denemeler</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-surface-variant dark:text-outline hover:bg-surface-container-high dark:hover:bg-surface-variant/20 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">İstatistikler</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-surface-variant dark:text-outline hover:bg-surface-container-high dark:hover:bg-surface-variant/20 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">campaign</span>
+<span class="font-label-md text-label-md">Duyurular</span>
+</a>
+</nav>
+<div class="mt-auto pt-md border-t border-outline-variant/20">
+<a class="flex items-center gap-3 p-3 text-on-surface-variant hover:bg-surface-container-high rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Yardım</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-error hover:bg-error-container/20 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Çıkış Yap</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-16 min-h-screen">
+<div class="max-w-7xl mx-auto px-md py-lg">
+<!-- Category Header & Controls -->
+<section class="mb-lg">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md mb-lg">
+<div>
+<nav class="flex items-center gap-2 text-outline mb-2">
+<span class="font-label-md text-label-md">Kategoriler</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="font-label-md text-label-md text-primary">Denemeler</span>
+</nav>
+<h1 class="font-headline-lg text-headline-lg font-bold text-on-surface">Deneme Sınavları &amp; Kaynaklar</h1>
+<p class="text-on-surface-variant font-body-md mt-2 max-w-2xl">Müfredata uygun, güncel ve interaktif deneme sınavları ile seviyeni ölç, eksiklerini tamamla.</p>
+</div>
+<button class="flex items-center gap-2 bg-primary text-on-primary px-6 py-3 rounded-full font-label-md shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all active:scale-95">
+<span class="material-symbols-outlined">add</span>
+                        Yeni İçerik Ekle
+                    </button>
+</div>
+<!-- Filters Bento -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-sm p-4 bg-surface-container-low rounded-2xl border border-outline-variant/30">
+<!-- Search inside filters for focus -->
+<div class="md:col-span-1 relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 bg-white border border-outline-variant rounded-xl text-label-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="Deneme adı veya yayınevi..." type="text"/>
+</div>
+<div class="relative">
+<select class="w-full px-4 py-2.5 bg-white border border-outline-variant rounded-xl text-label-md appearance-none focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none cursor-pointer">
+<option value="">Sınıf Seçiniz</option>
+<option>8. Sınıf (LGS)</option>
+<option>12. Sınıf (YKS)</option>
+<option>Mezun</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-outline">expand_more</span>
+</div>
+<div class="relative">
+<select class="w-full px-4 py-2.5 bg-white border border-outline-variant rounded-xl text-label-md appearance-none focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none cursor-pointer">
+<option value="">Branş / Konu</option>
+<option>Genel Deneme</option>
+<option>Matematik</option>
+<option>Türkçe</option>
+<option>Fen Bilimleri</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-outline">expand_more</span>
+</div>
+<div class="relative">
+<select class="w-full px-4 py-2.5 bg-white border border-outline-variant rounded-xl text-label-md appearance-none focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none cursor-pointer">
+<option value="">Sıralama</option>
+<option>En Yeni</option>
+<option>En Çok Çözülen</option>
+<option>Popülerlik</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-outline">sort</span>
+</div>
+</div>
+</section>
+<!-- Resources Grid -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-md">
+<!-- Card 1 -->
+<div class="bento-card group bg-white border border-outline-variant/30 rounded-2xl overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:shadow-primary/5 transition-all">
+<div class="relative aspect-[3/4] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A professional textbook cover design for a Turkish National Exam preparation book titled 'LGS Pro Max'. The design is modern and academic, featuring abstract geometric lavender and mint green shapes. The lighting is crisp and clear, conveying a premium educational resource feel with a clean, high-contrast typography style consistent with the EduTr brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAs0M9-1rygKKqtpMiJs7KFYVzlqn1A6it0Y8lHxkJvUVSs-TqQfPsxQwEJY8NqhRiuAK3cyhn8pa7YLhmRSvDS7s69VjvQPQpltB55kX2KkoI2lgJmyHADqR3KQrL5CH1YS98BWFt3x1Qxi5EHK5xO39N-9ijVlT0VgKCUB1pOsVHK4j_cBom-mVWrXr469M6zcsP5vZwgzUg-rKDIoTXJo3LgOWMTl84L3lDdZWZIf9jP9Z_1dyFjobwxzRu0sE3OnhYwghNG2v4"/>
+<div class="absolute top-3 left-3 flex flex-wrap gap-1">
+<span class="bg-primary/90 backdrop-blur-md text-white text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-tight">LGS 2024</span>
+<span class="bg-tertiary/90 backdrop-blur-md text-white text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-tight">Sözel</span>
+</div>
+<div class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-tertiary" style="font-variation-settings: 'FILL' 1;">task_alt</span>
+<span class="text-[11px] font-bold text-on-surface">%85 Tamamlandı</span>
+</div>
+</div>
+<div class="p-md flex flex-col flex-1">
+<div class="mb-2">
+<h3 class="font-headline-md text-[18px] leading-tight text-on-surface group-hover:text-primary transition-colors">LGS Altın Karma Deneme Seti</h3>
+<p class="text-on-surface-variant text-label-md mt-1">Akademik Yayıncılık</p>
+</div>
+<p class="text-on-surface-variant font-body-md text-sm line-clamp-2 mb-md">LGS müfredatının tamamını kapsayan, yeni nesil beceri temelli sorulardan oluşan 5'li deneme seti.</p>
+<div class="mt-auto space-y-3">
+<div class="w-full bg-surface-container rounded-full h-1.5">
+<div class="bg-tertiary h-1.5 rounded-full" style="width: 85%"></div>
+</div>
+<button class="w-full py-2.5 px-4 bg-primary/10 text-primary hover:bg-primary hover:text-on-primary rounded-xl font-label-md transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+                                İncele
+                            </button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bento-card group bg-white border border-outline-variant/30 rounded-2xl overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:shadow-primary/5 transition-all">
+<div class="relative aspect-[3/4] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A premium educational resource cover for 'AYT Matematik Branş Denemeleri'. The cover features sophisticated 3D mathematical visualizations like a mobius strip and calculus symbols in a soft lavender and deep indigo color scheme. The lighting is ethereal and focused, suggesting high-level academic study and progress in a clean light-mode interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXfbeOv7D24UBw9O2eZ4N2muY8gkJS0NHRJrnq5PhEJFszD45m6OHsfpq2hh70ofjsEQQApypy3kezp2wsSppVQQZJojFmSeYX2zQCGb9ZG_4YCO63SjQhTLe_n7oStIgOonutWObsN5QKHyb-EahS62lGJcGmvbw602AtGI6zvFz9FXBPaxbD9oV2LLPdMX1_Xt_DmW5XL0ueLfDr1BkhwyGAEbEv5unFBdsgMeatMgz5wsdDaEntMFi0qKouxZlBsv4QcDNycxw"/>
+<div class="absolute top-3 left-3 flex flex-wrap gap-1">
+<span class="bg-secondary/90 backdrop-blur-md text-white text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-tight">AYT</span>
+<span class="bg-error/90 backdrop-blur-md text-white text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-tight">Sayısal</span>
+</div>
+<div class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-outline">history</span>
+<span class="text-[11px] font-bold text-on-surface">Başlanmadı</span>
+</div>
+</div>
+<div class="p-md flex flex-col flex-1">
+<div class="mb-2">
+<h3 class="font-headline-md text-[18px] leading-tight text-on-surface group-hover:text-primary transition-colors">AYT Matematik 15'li Branş Denemesi</h3>
+<p class="text-on-surface-variant text-label-md mt-1">Delta Akademi</p>
+</div>
+<p class="text-on-surface-variant font-body-md text-sm line-clamp-2 mb-md">Türev, integral ve trigonometri ağırlıklı, ÖSYM tarzı zorluk seviyesine sahip özel seçki.</p>
+<div class="mt-auto space-y-3">
+<div class="w-full bg-surface-container rounded-full h-1.5">
+<div class="bg-outline-variant h-1.5 rounded-full" style="width: 0%"></div>
+</div>
+<button class="w-full py-2.5 px-4 bg-primary/10 text-primary hover:bg-primary hover:text-on-primary rounded-xl font-label-md transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+                                İncele
+                            </button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bento-card group bg-white border border-outline-variant/30 rounded-2xl overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:shadow-primary/5 transition-all">
+<div class="relative aspect-[3/4] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A minimalist yet vibrant cover for an English Language proficiency test book titled 'WordPower TOEFL'. The design uses bright mint green and clean white typography. Simple, elegant icons of a globe and a pen are integrated into a modern layout. The scene is lit with bright, natural-looking studio light against a light grey background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdXjEFvP8-MzvqSXMDZK-dxAMLilmUrf7d2I0cplZD0kJs_MsLdaoI5yVkgx-HCudOhblBUXsxg0glU32uvZrAzfNPmiNewsy3-gsq7y9uLmez4hnDP1CdgljqvaiHti6PDIkltBP4Rmawx2COMtIQvGwVoMMqLfsD3bCjMQtBosUhuArLwAKYKrYax-GAwvnCQ7dR6NnGIPcIPJKDiZHCwLezavM0mXf8ppKkqlhtCBY1Lp-cXEj3WNa7vBtHvh2GSJXIzTroziA"/>
+<div class="absolute top-3 left-3 flex flex-wrap gap-1">
+<span class="bg-tertiary/90 backdrop-blur-md text-white text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-tight">İngilizce</span>
+<span class="bg-on-secondary-fixed-variant/90 backdrop-blur-md text-white text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-tight">B2/C1</span>
+</div>
+<div class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+<span class="text-[11px] font-bold text-on-surface">%30 İlerleme</span>
+</div>
+</div>
+<div class="p-md flex flex-col flex-1">
+<div class="mb-2">
+<h3 class="font-headline-md text-[18px] leading-tight text-on-surface group-hover:text-primary transition-colors">Advanced Vocabulary Practice</h3>
+<p class="text-on-surface-variant text-label-md mt-1">Global Learning</p>
+</div>
+<p class="text-on-surface-variant font-body-md text-sm line-clamp-2 mb-md">Akademik kelime bilgisi ve okuma anlama üzerine odaklanan interaktif hazırlık kaynağı.</p>
+<div class="mt-auto space-y-3">
+<div class="w-full bg-surface-container rounded-full h-1.5">
+<div class="bg-primary h-1.5 rounded-full" style="width: 30%"></div>
+</div>
+<button class="w-full py-2.5 px-4 bg-primary/10 text-primary hover:bg-primary hover:text-on-primary rounded-xl font-label-md transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+                                İncele
+                            </button>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bento-card group bg-white border border-outline-variant/30 rounded-2xl overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:shadow-primary/5 transition-all">
+<div class="relative aspect-[3/4] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A clean, scientific textbook cover for 'TYT Fen Bilimleri Denemeleri'. The artwork features stylized laboratory equipment like flasks and atoms in a sophisticated palette of pastel blues and soft greys. The lighting is sharp and clinical but welcoming, emphasizing accuracy and clarity in science education, fitting perfectly within the EduTr UI theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCUHyibaMDQvxLzvC5nHDtpDRlqfgtTMk0OiQtKvwznAF7Ii05f05tgNRGl29mVaE03M1XTY_C-OWM01Wkj5TBZ-hA2jcxUMpKtcIvNgyTZh6Vj0ECiBLmjOdte5N0uJWG9N4HXAFSTlzA0HmICalRY71EGG4xmDIUDyYG083Kw0E0QdqStd5t8d3KX3sh7h60KQVVyOuUhww0wQOatKvSUujlz3odGBGx3Lq4rkU2OgXuQJeuZvh_hqzau9s3xSkHP_int-6X3N4"/>
+<div class="absolute top-3 left-3 flex flex-wrap gap-1">
+<span class="bg-secondary-container/90 backdrop-blur-md text-on-secondary-container text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-tight">TYT</span>
+<span class="bg-tertiary-container/90 backdrop-blur-md text-on-tertiary-container text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-tight">Fen Bilimleri</span>
+</div>
+<div class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-tertiary" style="font-variation-settings: 'FILL' 1;">task_alt</span>
+<span class="text-[11px] font-bold text-on-surface">Tamamlandı</span>
+</div>
+</div>
+<div class="p-md flex flex-col flex-1">
+<div class="mb-2">
+<h3 class="font-headline-md text-[18px] leading-tight text-on-surface group-hover:text-primary transition-colors">TYT Fen Bilimleri Soru Bankası</h3>
+<p class="text-on-surface-variant text-label-md mt-1">Bilimsel Yayınlar</p>
+</div>
+<p class="text-on-surface-variant font-body-md text-sm line-clamp-2 mb-md">Fizik, Kimya ve Biyoloji derslerinin tüm TYT konularını kapsayan güncel soru havuzu.</p>
+<div class="mt-auto space-y-3">
+<div class="w-full bg-surface-container rounded-full h-1.5">
+<div class="bg-tertiary h-1.5 rounded-full" style="width: 100%"></div>
+</div>
+<button class="w-full py-2.5 px-4 bg-primary/10 text-primary hover:bg-primary hover:text-on-primary rounded-xl font-label-md transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+                                İncele
+                            </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Pagination -->
+<div class="mt-xl flex items-center justify-center gap-2">
+<button class="p-2 rounded-lg hover:bg-surface-container transition-all text-outline hover:text-primary">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-lg bg-primary text-on-primary font-label-md">1</button>
+<button class="w-10 h-10 rounded-lg hover:bg-surface-container font-label-md text-on-surface-variant transition-all">2</button>
+<button class="w-10 h-10 rounded-lg hover:bg-surface-container font-label-md text-on-surface-variant transition-all">3</button>
+<span class="mx-2 text-outline">...</span>
+<button class="w-10 h-10 rounded-lg hover:bg-surface-container font-label-md text-on-surface-variant transition-all">12</button>
+<button class="p-2 rounded-lg hover:bg-surface-container transition-all text-outline hover:text-primary">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Mobile Bottom Navigation -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full h-16 bg-white/80 backdrop-blur-lg border-t border-outline-variant/30 flex items-center justify-around px-4 z-50">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-medium">Panel</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">category</span>
+<span class="text-[10px] font-medium">Denemeler</span>
+</a>
+<button class="relative -top-6 w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg shadow-primary/40 flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-medium">Analiz</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-medium">Profil</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions and subtle effects
+        document.querySelectorAll('.bento-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Subtle shine effect logic could be added here
+            });
+        });
+
+        // Theme toggle simulation
+        let isDark = false;
+        const toggleTheme = () => {
+            isDark = !isDark;
+            document.documentElement.classList.toggle('dark', isDark);
+        };
+        // Attached to the dark_mode button if needed
+    </script>
+</body></html>

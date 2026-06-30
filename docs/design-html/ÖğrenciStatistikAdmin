@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#004883",
+                        "inverse-surface": "#2e3132",
+                        "on-secondary-fixed": "#001c39",
+                        "surface-tint": "#674bb5",
+                        "on-primary-fixed": "#21005e",
+                        "surface": "#f8f9fa",
+                        "surface-container-highest": "#e1e3e4",
+                        "tertiary": "#006c4b",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "tertiary-fixed": "#68fcbf",
+                        "primary-fixed-dim": "#cebdff",
+                        "surface-dim": "#d9dadb",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#e1e3e4",
+                        "secondary-fixed-dim": "#a4c9ff",
+                        "secondary": "#0060ac",
+                        "on-surface-variant": "#494552",
+                        "on-tertiary-fixed-variant": "#005137",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#3c1989",
+                        "secondary-container": "#64a8fe",
+                        "outline-variant": "#cac4d4",
+                        "outline": "#7a7583",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#edeeef",
+                        "secondary-fixed": "#d4e3ff",
+                        "on-primary-fixed-variant": "#4f319c",
+                        "tertiary-container": "#00b37e",
+                        "tertiary-fixed-dim": "#45dfa4",
+                        "on-background": "#191c1d",
+                        "primary": "#674bb5",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#f8f9fa",
+                        "surface-container-low": "#f3f4f5",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#e8ddff",
+                        "on-surface": "#191c1d",
+                        "inverse-primary": "#cebdff",
+                        "on-tertiary-container": "#003d28",
+                        "on-tertiary-fixed": "#002114",
+                        "on-secondary-container": "#003c70",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#a78bfa",
+                        "surface-container-high": "#e7e8e9",
+                        "background": "#f8f9fa"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "sm": "12px",
+                        "base": "8px",
+                        "md": "24px",
+                        "xl": "80px",
+                        "lg": "48px",
+                        "xs": "4px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "caption": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cac4d4;
+            border-radius: 10px;
+        }
+        .profile-sidebar-enter { transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .profile-sidebar-active { transform: translateX(0); }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface">
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-md h-16 backdrop-blur-xl bg-surface/80 shadow-sm border-b border-outline-variant/30">
+<div class="flex items-center gap-base">
+<span class="font-headline-lg text-headline-lg font-bold text-primary">EduTr</span>
+</div>
+<div class="hidden md:flex items-center bg-surface-container rounded-full px-sm py-1.5 w-96">
+<span class="material-symbols-outlined text-outline text-sm" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full font-label-md" placeholder="Öğrenci veya sınıf ara..." type="text"/>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-2 rounded-full hover:bg-surface-container transition-all active:scale-95">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="dark_mode">dark_mode</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container transition-all active:scale-95">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant/30 ml-2">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a female administrator in her early 40s, looking confidently at the camera. She has a warm smile and is wearing professional attire in a modern, brightly lit office environment with soft bokeh background. The lighting is high-key and soft, following a premium EduTr platform aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRnVMFtK-ev_cQIY7v0VvA916iACmgE_ELb-oyWkvEsO9K_phUEfGLv8lryKJfAHhzJAFPHscL9TzJp2qAMU0x2HJ1UJ5yr3JmxstmXmOzns4_10k1lY7w_r5UD5ABVDuTxQK_r2q-jD-ccmbIS4DOvu3U1dsLuGGf1p84LQ4MXwION7wdxNaYRpqL5iFPXtu-6MZNSeC8mBpHtBcKwEXC7d7dQvMuQ_fpvymzmRc58SF3TYx5qCthFGFz63Re4rUsNNaSXUJ7-4o"/>
+</div>
+</div>
+</header>
+<div class="flex pt-16 min-h-screen">
+<!-- SideNavBar Shell -->
+<aside class="hidden md:flex flex-col fixed left-0 top-16 h-[calc(100vh-64px)] py-md shadow-lg w-64 bg-surface-container-low border-r border-outline-variant/20 z-40">
+<div class="px-md mb-lg">
+<div class="flex items-center gap-sm mb-xs">
+<div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container" data-icon="admin_panel_settings">admin_panel_settings</span>
+</div>
+<div>
+<p class="font-headline-md text-headline-md text-primary leading-tight">Admin Paneli</p>
+<p class="font-label-md text-label-md text-outline">Hoş Geldiniz</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-sm py-3 px-4 text-on-surface-variant hover:bg-surface-container-high rounded-xl mx-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Panel</span>
+</a>
+<a class="flex items-center gap-sm py-3 px-4 text-on-surface-variant hover:bg-surface-container-high rounded-xl mx-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="category">category</span>
+<span class="font-label-md text-label-md">Kategori Yönetimi</span>
+</a>
+<a class="flex items-center gap-sm py-3 px-4 bg-primary-container text-on-primary-container rounded-xl mx-2 shadow-sm" href="#">
+<span class="material-symbols-outlined" data-icon="analytics" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-label-md text-label-md">Öğrenci İstatistikleri</span>
+</a>
+<a class="flex items-center gap-sm py-3 px-4 text-on-surface-variant hover:bg-surface-container-high rounded-xl mx-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="manage_accounts">manage_accounts</span>
+<span class="font-label-md text-label-md">Hesap Yönetimi</span>
+</a>
+<a class="flex items-center gap-sm py-3 px-4 text-on-surface-variant hover:bg-surface-container-high rounded-xl mx-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="campaign">campaign</span>
+<span class="font-label-md text-label-md">Duyurular</span>
+</a>
+<a class="flex items-center gap-sm py-3 px-4 text-on-surface-variant hover:bg-surface-container-high rounded-xl mx-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Ayarlar</span>
+</a>
+</nav>
+<div class="mt-auto px-2 space-y-1">
+<a class="flex items-center gap-sm py-3 px-4 text-on-surface-variant hover:bg-surface-container-high rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Yardım</span>
+</a>
+<a class="flex items-center gap-sm py-3 px-4 text-error hover:bg-error-container/20 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Çıkış Yap</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 md:ml-64 p-md lg:p-lg bg-surface">
+<header class="flex flex-col md:flex-row md:items-center justify-between gap-md mb-lg">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Öğrenci İstatistikleri</h1>
+<p class="text-on-surface-variant font-body-md">Sistemdeki öğrencilerin genel performans ve ilerleme raporlarını inceleyin.</p>
+</div>
+<div class="flex items-center gap-sm">
+<button class="bg-surface-container-high text-on-surface py-2 px-md rounded-xl font-label-md flex items-center gap-xs hover:bg-surface-container-highest transition-all active:scale-95 shadow-sm">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span> Filtrele
+                    </button>
+<button class="bg-primary text-on-primary py-2 px-md rounded-xl font-label-md flex items-center gap-xs hover:shadow-lg transition-all active:scale-95">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span> Rapor İndir
+                    </button>
+</div>
+</header>
+<!-- Stats Overview Bento -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-md mb-lg">
+<div class="bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant/20 flex flex-col gap-xs">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary mb-xs">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+</div>
+<span class="font-label-md text-outline">Toplam Öğrenci</span>
+<span class="font-headline-md text-headline-md text-on-surface">1,284</span>
+<div class="flex items-center gap-xs text-tertiary font-caption">
+<span class="material-symbols-outlined text-xs" data-icon="trending_up">trending_up</span> %12 Artış
+                    </div>
+</div>
+<div class="bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant/20 flex flex-col gap-xs">
+<div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary mb-xs">
+<span class="material-symbols-outlined" data-icon="assignment_turned_in">assignment_turned_in</span>
+</div>
+<span class="font-label-md text-outline">Tamamlanan Testler</span>
+<span class="font-headline-md text-headline-md text-on-surface">24,512</span>
+<div class="flex items-center gap-xs text-tertiary font-caption">
+<span class="material-symbols-outlined text-xs" data-icon="trending_up">trending_up</span> %5 Artış
+                    </div>
+</div>
+<div class="bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant/20 flex flex-col gap-xs">
+<div class="w-10 h-10 rounded-lg bg-tertiary/10 flex items-center justify-center text-tertiary mb-xs">
+<span class="material-symbols-outlined" data-icon="star">star</span>
+</div>
+<span class="font-label-md text-outline">Ortalama Puan</span>
+<span class="font-headline-md text-headline-md text-on-surface">84.2</span>
+<div class="flex items-center gap-xs text-error font-caption">
+<span class="material-symbols-outlined text-xs" data-icon="trending_down">trending_down</span> %2 Düşüş
+                    </div>
+</div>
+<div class="bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant/20 flex flex-col gap-xs">
+<div class="w-10 h-10 rounded-lg bg-on-primary-fixed-variant/10 flex items-center justify-center text-on-primary-fixed-variant mb-xs">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+</div>
+<span class="font-label-md text-outline">Aktiflik Oranı</span>
+<span class="font-headline-md text-headline-md text-on-surface">%94</span>
+<div class="flex items-center gap-xs text-tertiary font-caption">
+<span class="material-symbols-outlined text-xs" data-icon="trending_up">trending_up</span> %3 Artış
+                    </div>
+</div>
+</div>
+<!-- Main Table Section -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/20 overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-outline-variant/30">
+<tr>
+<th class="py-md px-md font-label-md text-label-md text-outline">Öğrenci Adı</th>
+<th class="py-md px-sm font-label-md text-label-md text-outline">Sınıf</th>
+<th class="py-md px-sm font-label-md text-label-md text-outline text-center">Tamamlanan Testler</th>
+<th class="py-md px-sm font-label-md text-label-md text-outline text-center">Ortalama Puan</th>
+<th class="py-md px-sm font-label-md text-label-md text-outline text-center">Durum</th>
+<th class="py-md px-md font-label-md text-label-md text-outline text-right">İşlemler</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer group" onclick="toggleProfileSidebar('Ayşe Yılmaz')">
+<td class="py-md px-md">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold">AY</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Ayşe Yılmaz</p>
+<p class="text-caption font-caption text-outline">ayse.yilmaz@edu.tr</p>
+</div>
+</div>
+</td>
+<td class="py-md px-sm text-on-surface-variant font-label-md">11-A</td>
+<td class="py-md px-sm text-center font-body-md">42</td>
+<td class="py-md px-sm text-center">
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md text-on-surface">92.4</span>
+<div class="w-24 bg-surface-container-high h-1.5 rounded-full mt-xs overflow-hidden">
+<div class="bg-tertiary-container h-full" style="width: 92%"></div>
+</div>
+</div>
+</td>
+<td class="py-md px-sm text-center">
+<span class="bg-tertiary/10 text-tertiary py-1 px-3 rounded-full text-caption font-label-md">Mükemmel</span>
+</td>
+<td class="py-md px-md text-right">
+<button class="p-2 rounded-full text-outline hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer group" onclick="toggleProfileSidebar('Mehmet Demir')">
+<td class="py-md px-md">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold">MD</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Mehmet Demir</p>
+<p class="text-caption font-caption text-outline">m.demir@edu.tr</p>
+</div>
+</div>
+</td>
+<td class="py-md px-sm text-on-surface-variant font-label-md">12-C</td>
+<td class="py-md px-sm text-center font-body-md">31</td>
+<td class="py-md px-sm text-center">
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md text-on-surface">78.1</span>
+<div class="w-24 bg-surface-container-high h-1.5 rounded-full mt-xs overflow-hidden">
+<div class="bg-secondary-container h-full" style="width: 78%"></div>
+</div>
+</div>
+</td>
+<td class="py-md px-sm text-center">
+<span class="bg-secondary/10 text-secondary py-1 px-3 rounded-full text-caption font-label-md">İyi</span>
+</td>
+<td class="py-md px-md text-right">
+<button class="p-2 rounded-full text-outline hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer group" onclick="toggleProfileSidebar('Canberk Öz')">
+<td class="py-md px-md">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-outline-variant text-on-surface-variant flex items-center justify-center font-bold">CÖ</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Canberk Öz</p>
+<p class="text-caption font-caption text-outline">canberk@edu.tr</p>
+</div>
+</div>
+</td>
+<td class="py-md px-sm text-on-surface-variant font-label-md">10-B</td>
+<td class="py-md px-sm text-center font-body-md">12</td>
+<td class="py-md px-sm text-center">
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md text-on-surface">45.6</span>
+<div class="w-24 bg-surface-container-high h-1.5 rounded-full mt-xs overflow-hidden">
+<div class="bg-error h-full" style="width: 45%"></div>
+</div>
+</div>
+</td>
+<td class="py-md px-sm text-center">
+<span class="bg-error/10 text-error py-1 px-3 rounded-full text-caption font-label-md">Geliştirilmeli</span>
+</td>
+<td class="py-md px-md text-right">
+<button class="p-2 rounded-full text-outline hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer group" onclick="toggleProfileSidebar('Elif Kaya')">
+<td class="py-md px-md">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center font-bold">EK</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Elif Kaya</p>
+<p class="text-caption font-caption text-outline">elif.kaya@edu.tr</p>
+</div>
+</div>
+</td>
+<td class="py-md px-sm text-on-surface-variant font-label-md">11-A</td>
+<td class="py-md px-sm text-center font-body-md">38</td>
+<td class="py-md px-sm text-center">
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md text-on-surface">88.2</span>
+<div class="w-24 bg-surface-container-high h-1.5 rounded-full mt-xs overflow-hidden">
+<div class="bg-tertiary-container h-full" style="width: 88%"></div>
+</div>
+</div>
+</td>
+<td class="py-md px-sm text-center">
+<span class="bg-tertiary/10 text-tertiary py-1 px-3 rounded-full text-caption font-label-md">Başarılı</span>
+</td>
+<td class="py-md px-md text-right">
+<button class="p-2 rounded-full text-outline hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-md bg-surface-container-low border-t border-outline-variant/30 flex items-center justify-between">
+<span class="text-caption font-label-md text-outline">Toplam 1,284 kayıttan 1-10 arası gösteriliyor</span>
+<div class="flex items-center gap-xs">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant/50 text-outline hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-on-primary font-label-md">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant/50 text-outline hover:bg-surface-container transition-colors">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant/50 text-outline hover:bg-surface-container transition-colors">3</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant/50 text-outline hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Student Detail Sidebar (Popup) -->
+<div class="fixed inset-0 bg-on-background/30 backdrop-blur-sm z-[60] hidden transition-opacity opacity-0 duration-300" id="profileSidebarOverlay" onclick="toggleProfileSidebar()"></div>
+<div class="fixed top-0 right-0 h-full w-full max-w-lg bg-surface shadow-2xl z-[70] profile-sidebar-enter overflow-y-auto" id="profileSidebar">
+<div class="p-md lg:p-lg">
+<header class="flex items-center justify-between mb-lg">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-all" onclick="toggleProfileSidebar()">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+<div class="flex items-center gap-sm">
+<button class="p-2 rounded-full text-outline hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-2 rounded-full text-outline hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="share">share</span>
+</button>
+</div>
+</header>
+<div class="flex flex-col items-center mb-lg">
+<div class="w-24 h-24 rounded-3xl bg-primary-container text-on-primary-container flex items-center justify-center text-4xl font-bold mb-md shadow-lg border-4 border-white">
+<span id="sidebarAvatar">AY</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface" id="sidebarName">Ayşe Yılmaz</h2>
+<p class="text-on-surface-variant font-body-md">11-A Sınıfı • Öğrenci No: #4812</p>
+<div class="mt-md flex gap-sm">
+<span class="bg-tertiary/10 text-tertiary py-1 px-4 rounded-full font-label-md text-sm">Aktif</span>
+<span class="bg-primary/10 text-primary py-1 px-4 rounded-full font-label-md text-sm">Ücretli Üyelik</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-md mb-lg">
+<div class="bg-surface-container p-md rounded-2xl flex flex-col items-center gap-xs border border-outline-variant/10">
+<span class="text-caption font-label-md text-outline">Toplam Süre</span>
+<span class="font-headline-md text-on-surface">142 S.</span>
+</div>
+<div class="bg-surface-container p-md rounded-2xl flex flex-col items-center gap-xs border border-outline-variant/10">
+<span class="text-caption font-label-md text-outline">Sıralama</span>
+<span class="font-headline-md text-on-surface">#12</span>
+</div>
+</div>
+<!-- Category Specific Progress -->
+<div class="space-y-md mb-lg">
+<h3 class="font-headline-md text-headline-md text-on-surface">Kategori Bazlı Performans</h3>
+<div class="space-y-sm">
+<!-- Math -->
+<div class="bg-surface-container-low p-sm rounded-xl border border-outline-variant/10">
+<div class="flex justify-between items-center mb-xs">
+<span class="font-label-md text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="functions">functions</span> Matematik
+                            </span>
+<span class="font-label-md text-primary">%94</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-primary h-full transition-all duration-1000" style="width: 94%"></div>
+</div>
+</div>
+<!-- Science -->
+<div class="bg-surface-container-low p-sm rounded-xl border border-outline-variant/10">
+<div class="flex justify-between items-center mb-xs">
+<span class="font-label-md text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm text-tertiary" data-icon="biotech">biotech</span> Fen Bilimleri
+                            </span>
+<span class="font-label-md text-tertiary">%88</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-tertiary h-full transition-all duration-1000" style="width: 88%"></div>
+</div>
+</div>
+<!-- Language -->
+<div class="bg-surface-container-low p-sm rounded-xl border border-outline-variant/10">
+<div class="flex justify-between items-center mb-xs">
+<span class="font-label-md text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="translate">translate</span> İngilizce
+                            </span>
+<span class="font-label-md text-secondary">%72</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-secondary h-full transition-all duration-1000" style="width: 72%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Weekly Activity Mock Chart -->
+<div class="bg-surface-container-low p-md rounded-2xl border border-outline-variant/20 mb-lg">
+<h3 class="font-label-md text-on-surface mb-md">Haftalık Aktivite (Dakika)</h3>
+<div class="flex items-end justify-between h-32 gap-xs">
+<div class="flex-1 bg-primary/20 rounded-t-lg h-[40%] hover:bg-primary transition-colors cursor-pointer relative group">
+<span class="absolute -top-6 left-1/2 -translate-x-1/2 text-caption opacity-0 group-hover:opacity-100 transition-opacity">Pzt</span>
+</div>
+<div class="flex-1 bg-primary/20 rounded-t-lg h-[70%] hover:bg-primary transition-colors cursor-pointer"></div>
+<div class="flex-1 bg-primary rounded-t-lg h-[100%] transition-colors cursor-pointer"></div>
+<div class="flex-1 bg-primary/20 rounded-t-lg h-[55%] hover:bg-primary transition-colors cursor-pointer"></div>
+<div class="flex-1 bg-primary/20 rounded-t-lg h-[80%] hover:bg-primary transition-colors cursor-pointer"></div>
+<div class="flex-1 bg-primary/20 rounded-t-lg h-[30%] hover:bg-primary transition-colors cursor-pointer"></div>
+<div class="flex-1 bg-primary/20 rounded-t-lg h-[45%] hover:bg-primary transition-colors cursor-pointer"></div>
+</div>
+</div>
+<button class="w-full bg-surface-container-high py-md rounded-2xl font-label-md text-on-surface-variant hover:bg-surface-container-highest transition-all active:scale-95">
+                Tüm Detaylı Karnesini Gör
+            </button>
+</div>
+</div>
+<script>
+        function toggleProfileSidebar(name = '') {
+            const sidebar = document.getElementById('profileSidebar');
+            const overlay = document.getElementById('profileSidebarOverlay');
+            const sidebarName = document.getElementById('sidebarName');
+            const sidebarAvatar = document.getElementById('sidebarAvatar');
+
+            if (sidebar.classList.contains('profile-sidebar-active')) {
+                sidebar.classList.remove('profile-sidebar-active');
+                overlay.classList.add('hidden');
+                overlay.classList.remove('opacity-100');
+                overlay.classList.add('opacity-0');
+            } else {
+                if(name) {
+                    sidebarName.innerText = name;
+                    sidebarAvatar.innerText = name.split(' ').map(n => n[0]).join('');
+                }
+                sidebar.classList.add('profile-sidebar-active');
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    overlay.classList.remove('opacity-0');
+                    overlay.classList.add('opacity-100');
+                }, 10);
+            }
+        }
+
+        // Search bar micro-interaction
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-primary/20', 'bg-surface-container-low');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20', 'bg-surface-container-low');
+        });
+    </script>
+</body></html>
