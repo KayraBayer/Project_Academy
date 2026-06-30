@@ -39,18 +39,32 @@ VITE_FIREBASE_MEASUREMENT_ID=...
 npm run build
 ```
 
-GitHub Pages deploy için `main` branch'e push almak yeterlidir. Local önizleme için:
+Local önizleme için:
 
 ```bash
 npm run build
 npm run preview
 ```
 
+GitHub Pages'e terminalden yayın almak için:
+
+```bash
+npm run deploy
+```
+
 ## Production Yayın
 
 Canlı domain: `erdincbayer.net`
 
-Repo, `main` branch'e push geldiğinde GitHub Actions üzerinden GitHub Pages deploy çalıştıracak şekilde ayarlanmıştır.
+Terminalden deploy için GitHub Pages ayarında Source şu şekilde olmalıdır:
+
+```text
+Deploy from a branch
+Branch: gh-pages
+Folder: /root
+```
+
+Alternatif olarak repo, `main` branch'e push geldiğinde GitHub Actions üzerinden GitHub Pages deploy çalıştıracak workflow da içerir. Bu yöntemi kullanmak için Source olarak GitHub Actions seçilmelidir.
 
 GitHub > Settings > Environments > `production` içinde şu değerleri ekleyin:
 
@@ -73,7 +87,7 @@ GitHub Pages için ek service account secret gerekmez.
 Domain bağlama GitHub üzerinden yapılır:
 
 1. GitHub repo > Settings > Pages.
-2. Source olarak GitHub Actions seçili olmalıdır.
+2. `npm run deploy` kullanacaksan Source: Deploy from a branch > `gh-pages` > `/root` seçili olmalıdır.
 3. Custom domain alanına `erdincbayer.net` girilir.
 4. DNS panelinde apex domain için GitHub Pages A kayıtları eklenir:
    `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`.
