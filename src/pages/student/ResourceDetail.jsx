@@ -6,6 +6,7 @@ import Button from '../../components/common/Button';
 import EmptyState from '../../components/common/EmptyState';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { useAuth } from '../../contexts/AuthContext';
+import { trackAnalyticsEvent } from '../../services/analyticsService';
 import { getProgressByResource, isSolvedProgressItem } from '../../services/progressService';
 import { getResourceById, increaseResourceViewCount } from '../../services/resourceService';
 import { getCategoryName } from '../../utils/categories';
@@ -28,6 +29,13 @@ export default function ResourceDetail() {
         setProgress(progressItem);
         if (resourceItem) {
           increaseResourceViewCount(id).catch(() => {});
+          trackAnalyticsEvent('resource_view', {
+            resource_id: resourceItem.id,
+            resource_title: resourceItem.title,
+            category: resourceItem.category,
+            publisher: resourceItem.publisher,
+            grade_level: resourceItem.gradeLevel,
+          }).catch(() => {});
         }
       } finally {
         setLoading(false);

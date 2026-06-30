@@ -3,6 +3,7 @@ import { CheckCircle2, CircleSlash2, ExternalLink, RotateCcw, Save, XCircle } fr
 import toast from 'react-hot-toast';
 import Button from '../common/Button';
 import { isSolvedProgressItem, saveTestSubmission } from '../../services/progressService';
+import { trackAnalyticsEvent } from '../../services/analyticsService';
 import { cn } from '../../utils/classNames';
 
 const choices = ['A', 'B', 'C', 'D'];
@@ -131,6 +132,16 @@ export default function TestSolver({ resource, currentUser, progress, onSaved })
       toast.success(hasAnswerKey ? 'Test kaydedildi ve puanlandı.' : 'Cevaplar kaydedildi.');
       onSaved?.(savedProgress);
       setRevealResult(Boolean(savedProgress?.scoring));
+      trackAnalyticsEvent('test_submission_saved', {
+        resource_id: resource.id,
+        resource_title: resource.title,
+        category: savedProgress.category || resource.category,
+        publisher: resource.publisher || resource.sourceCollection,
+        grade_level: resource.gradeLevel,
+        answered_count: savedProgress.answeredCount || answeredCount,
+        question_count: savedProgress.questionCount || questionCount,
+        score: typeof savedProgress.score === 'number' ? savedProgress.score : undefined,
+      }).catch(() => {});
     } catch (error) {
       toast.error(error.message || 'Cevaplar kaydedilemedi.');
     } finally {

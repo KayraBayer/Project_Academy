@@ -27,6 +27,10 @@ vi.mock('../services/announcementService', () => ({
   getAnnouncements: vi.fn(),
 }));
 
+vi.mock('../services/analyticsService', () => ({
+  trackAnalyticsEvent: vi.fn(() => Promise.resolve(false)),
+}));
+
 vi.mock('../services/resourceService', () => ({
   getResourceById: vi.fn(),
   getResources: vi.fn(),

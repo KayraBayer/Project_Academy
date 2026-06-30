@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import AnalyticsTracker from './components/common/AnalyticsTracker';
 import AdminLayout from './components/layout/AdminLayout';
 import StudentLayout from './components/layout/StudentLayout';
 import AdminRoute from './routes/AdminRoute';
@@ -27,7 +28,9 @@ import NewResource from './pages/admin/NewResource';
 
 export default function App() {
   return (
-    <Routes>
+    <>
+      <AnalyticsTracker />
+      <Routes>
         <Route path="/" element={<RoleRedirect />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -64,5 +67,6 @@ export default function App() {
 
         <Route path="*" element={<RoleRedirect />} />
       </Routes>
+    </>
   );
 }

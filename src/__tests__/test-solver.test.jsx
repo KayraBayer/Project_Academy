@@ -12,6 +12,10 @@ vi.mock('react-hot-toast', () => ({
   },
 }));
 
+vi.mock('../services/analyticsService', () => ({
+  trackAnalyticsEvent: vi.fn(() => Promise.resolve(false)),
+}));
+
 vi.mock('../services/progressService', () => ({
   isSolvedProgressItem: vi.fn((item) =>
     Boolean(item?.status === 'completed' || item?.completedAt || item?.scoring || Number(item?.answeredCount || 0) > 0),

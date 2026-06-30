@@ -6,6 +6,7 @@ import EmptyState from '../../components/common/EmptyState';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import TestSolver from '../../components/resources/TestSolver';
 import { useAuth } from '../../contexts/AuthContext';
+import { trackAnalyticsEvent } from '../../services/analyticsService';
 import { getProgressByResource } from '../../services/progressService';
 import { getResourceById } from '../../services/resourceService';
 
@@ -25,6 +26,15 @@ export default function ResourceSolve() {
         const progressItem = resourceItem ? await getProgressByResource(currentUser.uid, id, resourceItem) : null;
         setResource(resourceItem);
         setProgress(progressItem);
+        if (resourceItem) {
+          trackAnalyticsEvent('test_solve_open', {
+            resource_id: resourceItem.id,
+            resource_title: resourceItem.title,
+            category: resourceItem.category,
+            publisher: resourceItem.publisher,
+            grade_level: resourceItem.gradeLevel,
+          }).catch(() => {});
+        }
       } finally {
         setLoading(false);
       }

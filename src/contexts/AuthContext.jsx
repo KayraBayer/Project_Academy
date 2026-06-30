@@ -11,6 +11,7 @@ import {
 } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
 import { callRecordLogin } from '../services/adminFunctionService';
+import { trackAnalyticsEvent } from '../services/analyticsService';
 import { getUserProfile } from '../services/userService';
 
 const AuthContext = createContext(null);
@@ -136,6 +137,11 @@ export function AuthProvider({ children }) {
 
       setCurrentUser(credential.user);
       setUserProfile({ ...profile, lastLoginAt });
+      trackAnalyticsEvent('login_success', {
+        method: 'email_password',
+        role: profile.role || 'student',
+        status: profile.status || '',
+      }).catch(() => {});
       return { ...profile, lastLoginAt };
     } catch (error) {
       throw new Error(authErrorMessage(error));

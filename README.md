@@ -30,6 +30,7 @@ VITE_FIREBASE_PROJECT_ID=...
 VITE_FIREBASE_STORAGE_BUCKET=...
 VITE_FIREBASE_MESSAGING_SENDER_ID=...
 VITE_FIREBASE_APP_ID=...
+VITE_FIREBASE_MEASUREMENT_ID=...
 ```
 
 Üretim build:
@@ -61,6 +62,7 @@ VITE_FIREBASE_PROJECT_ID
 VITE_FIREBASE_STORAGE_BUCKET
 VITE_FIREBASE_MESSAGING_SENDER_ID
 VITE_FIREBASE_APP_ID
+VITE_FIREBASE_MEASUREMENT_ID
 VITE_FIREBASE_FUNCTIONS_REGION
 VITE_ADMIN_EMAILS
 ```
@@ -80,6 +82,8 @@ Domain bağlama Firebase Console üzerinden yapılır:
 3. Firebase'in verdiği TXT doğrulama kaydını domain DNS paneline girin.
 4. Doğrulama tamamlanınca Firebase'in verdiği A/AAAA veya CNAME kayıtlarını DNS paneline ekleyin.
 5. SSL sertifikası Firebase tarafından otomatik hazırlanır.
+
+Firebase Analytics aktif edildiğinde uygulama `page_view`, `login_success`, `resource_view`, `test_solve_open` ve `test_submission_saved` eventlerini GA4'e gönderir. Admin dashboard ise hızlı ve anlık metrikler için Firestore'daki operasyonel verileri kullanmaya devam eder.
 
 ## Firestore Koleksiyonları
 

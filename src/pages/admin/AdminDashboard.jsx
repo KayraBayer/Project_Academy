@@ -17,7 +17,7 @@ import {
 import Button from '../../components/common/Button';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import StatCard from '../../components/admin/StatCard';
-import { getLoginEvents } from '../../services/analyticsService';
+import { getLoginEvents, isFirebaseAnalyticsConfigured } from '../../services/analyticsService';
 import { getProgressForStudent, isSolvedProgressItem, progressItemKey } from '../../services/progressService';
 import { getResources } from '../../services/resourceService';
 import { getAllUsers } from '../../services/userService';
@@ -415,6 +415,13 @@ export default function AdminDashboard() {
               value={loadErrors.length ? `${loadErrors.length} uyarı` : 'Bağlantı başarılı'}
               status={loadErrors.length ? 'warning' : 'ok'}
               description={loadErrors[0] || 'Kullanıcı, kaynak ve ilerleme verileri okunuyor.'}
+            />
+            <HealthItem
+              icon={Activity}
+              title="Firebase Analytics"
+              value={isFirebaseAnalyticsConfigured() ? 'GA4 eventleri aktif' : 'Measurement ID eksik'}
+              status={isFirebaseAnalyticsConfigured() ? 'ok' : 'warning'}
+              description="Sayfa görüntüleme, kaynak görüntüleme ve test çözüm olayları Analytics'e gönderilir."
             />
             <HealthItem
               icon={BookOpen}
