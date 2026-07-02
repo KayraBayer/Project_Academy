@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "stdserver-94bec",
+    "production": "stdserver-94bec"
+  }
+}
